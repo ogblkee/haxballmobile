@@ -1,6 +1,6 @@
 (function(){
   // Nivus.loader.js - loads Nivus.js (original) and Nivus.features.js (visual-only) in order
-  // Usage: point your injector to the raw URL of this file and enable URL execution.
+  // Modified: always wait 5 seconds after injection, then load both scripts sequentially.
 
   function loadScript(src, cb){
     var s = document.createElement('script');
@@ -11,32 +11,22 @@
     document.head.appendChild(s);
   }
 
-  function whenGameframeReady(cb, timeout){
-    timeout = timeout || 15000;
-    if(document.querySelector('.gameframe')) return cb();
-    var start = Date.now();
-    var iv = setInterval(function(){
-      if(document.querySelector('.gameframe')){ clearInterval(iv); return cb(); }
-      if(Date.now() - start > timeout){ clearInterval(iv); console.warn('[Nivus.loader] timeout waiting for .gameframe'); return cb(); }
-    }, 200);
-  }
-
   var NivusURL = 'https://raw.githubusercontent.com/ogblkee/haxballmobile/main/Nivus.js';
   var FeaturesURL = 'https://raw.githubusercontent.com/ogblkee/haxballmobile/main/Nivus.features.js';
 
-  // Start sequence
   try{
-    whenGameframeReady(function(){
+    console.log('[Nivus.loader] Waiting 5 seconds before loading scripts...');
+    setTimeout(function(){
       loadScript(NivusURL, function(err){
         if(err) return console.error('[Nivus.loader] Could not load Nivus.js');
         // small delay to let Nivus initialize DOM/widgets
         setTimeout(function(){
           loadScript(FeaturesURL, function(err2){
             if(err2) return console.warn('[Nivus.loader] Could not load features');
-            console.log('[Nivus.loader] Nivus + features loaded');
+            console.log('[Nivus.loader] Nivus + features loaded (after 5s delay)');
           });
         }, 400);
       });
-    }, 15000);
+    }, 5000);
   }catch(e){ console.error('[Nivus.loader] error', e); }
 })();
