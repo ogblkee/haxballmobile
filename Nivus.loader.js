@@ -11,7 +11,7 @@
     document.head.appendChild(s);
   }
 
-  var NivusURL = 'https://raw.githubusercontent.com/ogblkee/haxballmobile/main/Nivus.js';
+  var NivusURL = 'https://raw.githubusercontent.com/VixelDevelopment/HaxballMobile/main/old.min.js';
   var FeaturesURL = 'https://raw.githubusercontent.com/ogblkee/haxballmobile/main/Nivus.features.js';
 
   try{
